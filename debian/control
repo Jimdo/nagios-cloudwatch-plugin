@@ -1,0 +1,15 @@
+Source: nagios-cloudwatch-plugin
+Section: admin
+Priority: extra
+Maintainer: buildmaster <builds@jimdo.com>
+Build-Depends: debhelper (>= 7.0.50~), python (>= 2.5)
+Standards-Version: 3.8.4
+Homepage: https://github.com/Jimdo/nagios-cloudwatch-plugin
+Vcs-Git: git://github.com/Jimdo/nagios-cloudwatch-plugin.git
+
+Package: nagios-cloudwatch-plugin
+Architecture: any
+Recommends: nagios-plugins
+Depends: ${shlibs:Depends}, ${python:Version}, ${misc:Depends}, ${python:Depends}, nagios-plugins-common, python-boto, python-nagiosplugin, python-argparse
+Description: AWS CloudWatch check Nagios plugin
+ Small python script for coupling AWS Cloudwatch with Nagios

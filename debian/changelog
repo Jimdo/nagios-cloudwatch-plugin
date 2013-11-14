@@ -1,0 +1,5 @@
+nagios-cloudwatch-plugin (0.2.1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- buildmaster <builds@jimdo.com>  Thu, 14 Nov 2013 12:19:28 +0100
