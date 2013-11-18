@@ -85,7 +85,13 @@ def main():
                       help='increase verbosity (use up to 3 times)')
     argp.add_argument('-t', '--timeout', default=10,
                       help='abort execution after TIMEOUT seconds')
-    argp.add_argument('-p', '--period', default=60,
+
+    def int60(s):
+        i = int(s)
+        if i % 60:
+            raise argparse.ArgumentTypeError("Parameter period must be a multiple of 60.")
+        return i
+    argp.add_argument('-p', '--period', default=60, type=int60,
                       help='period in seconds for which to aggregate data')
 
     args = argp.parse_args()
