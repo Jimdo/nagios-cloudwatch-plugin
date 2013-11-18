@@ -4,8 +4,9 @@ import argparse, logging, nagiosplugin, boto
 from datetime import datetime, timedelta
 
 class CloudWatchMetric(nagiosplugin.Resource):
-    
-    def __init__(self, namespace, metric, dimensions, statistic):
+
+    def __init__(self, period, namespace, metric, dimensions, statistic):
+        self.period = period
         self.namespace = namespace
         self.metric=metric
         self.dimensions = dimensions
@@ -14,10 +15,10 @@ class CloudWatchMetric(nagiosplugin.Resource):
     def probe(self):
         logging.info('getting stats from cloudwatch')
         cw = boto.connect_cloudwatch()
-        start_time = datetime.utcnow() - timedelta(minutes=1)
+        start_time = datetime.utcnow() - timedelta(seconds=self.period)
         end_time = datetime.utcnow()
         stats = []
-        stats = cw.get_metric_statistics(60, start_time, end_time, 
+        stats = cw.get_metric_statistics(self.period, start_time, end_time,
                                          self.metric, self.namespace, self.statistic, self.dimensions)
         if len(stats) == 0:
             return []
@@ -70,11 +71,13 @@ def main():
                       help='increase verbosity (use up to 3 times)')
     argp.add_argument('-t', '--timeout', default=10,
                       help='abort execution after TIMEOUT seconds')
-    
+    argp.add_argument('-p', '--period', default=60,
+                      help='period in seconds for which to aggregate data')
+
     args=argp.parse_args()
     
     check = nagiosplugin.Check(
-            CloudWatchMetric(args.namespace, args.metric, args.dimensions, args.statistic),
+            CloudWatchMetric(args.period, args.namespace, args.metric, args.dimensions, args.statistic),
             nagiosplugin.ScalarContext('cloudwatchmetric', args.warning, args.critical),
             CloudWatchMetricSummary(args.namespace, args.metric, args.dimensions, args.statistic))
     check.main(verbose=args.verbose)
