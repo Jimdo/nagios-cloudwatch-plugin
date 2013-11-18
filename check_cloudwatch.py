@@ -34,7 +34,8 @@ class CloudWatchMetric(nagiosplugin.Resource):
 
 class CloudWatchMetricSummary(nagiosplugin.Summary):
 
-    def __init__(self, namespace, metric, dimensions, statistic):
+    def __init__(self, period, namespace, metric, dimensions, statistic):
+        self.period = period
         self.namespace = namespace
         self.metric = metric
         self.dimensions = dimensions
@@ -42,11 +43,13 @@ class CloudWatchMetricSummary(nagiosplugin.Summary):
 
     def ok(self, results):
         full_metric = '%s:%s' % (self.namespace, self.metric)
-        return 'CloudWatch Metric %s with dimensions %s' % (full_metric, self.dimensions)
+        return 'CloudWatch Metric %s with dimensions %s and period %s' % (
+            full_metric, self.dimensions, self.period)
 
     def problem(self, results):
         full_metric = '%s:%s' % (self.namespace, self.metric)
-        return 'CloudWatch Metric %s with dimensions %s' % (full_metric, self.dimensions)
+        return 'CloudWatch Metric %s with dimensions %s and period %s' % (
+            full_metric, self.dimensions, self.period)
 
 
 class KeyValArgs(argparse.Action):
@@ -90,7 +93,7 @@ def main():
     check = nagiosplugin.Check(
         CloudWatchMetric(args.period, args.namespace, args.metric, args.dimensions, args.statistic),
         nagiosplugin.ScalarContext('cloudwatchmetric', args.warning, args.critical),
-        CloudWatchMetricSummary(args.namespace, args.metric, args.dimensions, args.statistic))
+        CloudWatchMetricSummary(args.period, args.namespace, args.metric, args.dimensions, args.statistic))
     check.main(verbose=args.verbose)
 
 if __name__ == "__main__":
