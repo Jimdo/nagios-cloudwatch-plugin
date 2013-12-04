@@ -1,3 +1,33 @@
+nagios-cloudwatch-plugin (0.2.4) unstable; urgency=low
+
+  [ William Hutson ]
+  * Added support for statistic evaluation over periods other than 60s.
+
+  [ Soenke Ruempler ]
+  * enable monitoring of ratios
+  * refactored CloudWatchRatioMetric to use composition
+
+  [ Ole Michaelis ]
+  * small whitespace fix
+  * make timespane editable
+  * add summary for ratio metric
+  * make timespane editable
+  * add summary for ratio metric
+  * added support for delta monitoring
+  * Add period to delta metric, also force type=int
+
+  [ William Hutson ]
+  * Bumped version to 0.2.3 - Added support for ratio monitoring
+  * BugFix: include statistic period in time range for
+    CloudWatchDeltaMetric
+  * BugFix: bringing back da periodz
+  * Bumped version to 0.2.4: Added support for delta monitoring
+
+  [ buildmaster ]
+  * debianize it
+
+ -- buildmaster <buildmaster@buildhost02.jimdo.office>  Wed, 04 Dec 2013 17:03:13 +0100
+
 nagios-cloudwatch-plugin (0.2.1) unstable; urgency=low
 
   * Initial Release.
