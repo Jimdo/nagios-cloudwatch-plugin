@@ -1,3 +1,9 @@
+nagios-cloudwatch-plugin (0.2.5) unstable; urgency=low
+
+  * Rebuild package.
+
+ -- Mathias Lafeldt <mathias.lafeldt@gmail.com>  Tue, 26 Aug 2014 10:35:53 +0000
+
 nagios-cloudwatch-plugin (0.2.4) unstable; urgency=low
 
   [ William Hutson ]
